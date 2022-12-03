@@ -1,0 +1,395 @@
+<style>
+    #header {
+        width: 100%;
+        border-bottom: rgb(40, 55, 86) 0, 1px solid;
+        color: rgb(40, 55, 86);
+    }
+
+    .instalador {
+        background-color: #e3e3e3;
+        justify-content: center;
+        display: flex;
+        position: relative;
+        margin: auto;
+        padding: 5px;
+        max-width: 60px;
+        border-radius: 30px;
+    }
+
+    .filtro-selecao {
+        width: fit-content;
+        height: fit-content;
+        background: white;
+        border: solid 1px;
+        border-radius: 10px;
+        margin-left: 5px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    tr {
+        font-size: 12px;
+        border-bottom: rgba(120, 120, 120, 0.4) solid 1px;
+    }
+
+    a {
+        text-decoration: none;
+        color: rgb(40, 55, 86);
+    }
+
+    i {
+        font-size: 25px;
+    }
+</style>
+<script>
+    window.onload = function () {
+        var dataini = document.getElementById('dataini')
+        var datafim = document.getElementById('datafim')
+        if (dataini.value == '') {
+            var data = new Date()
+            var mes = data.getMonth()
+            var ano = data.getFullYear()
+            if (mes == 0 || mes == 2 || mes == 4 || mes == 6 || mes == 7 || mes == 9 || mes == 11) {
+                dia = '31'
+            } else {
+                dia = '30'
+            }
+            mes = mes + 1
+            dataini.value = ano + '-' + mes + '-' + '01'
+            datafim.value = ano + '-' + mes + '-' + dia
+        }
+    }
+</script>
+<div class='row' style="width: 100%;padding-left: 2%;">
+    <label class="titulo-inicio">Lista de Obras em Operação</label>
+    {{!-- <div id='header'>
+        <div class="row mt-2">
+            <ul class="nav nav-tabs mb-2">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" style="color: black"
+                        href="/gerenciamento/emandamento/lista">
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" style="color: black"
+                        href="/gerenciamento/emandamento/agenda">
+                        <label class="titulo-inicio">Agenda</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div> --}}
+    <form action='/gerenciamento/emandamento/' method='post' class="no-print">
+        <input type='hidden' name='tipo' value='emandamento'>
+        <div class='row'>
+            <div class='col-md-5'>
+                <label class='col-form-label col-form-label-sm fw-bold'>Instalador</label>
+                <select name='instalador' class='form-select form-select-sm'>
+                    {{#if installer_name}}
+                    <option class='fw-bold' value="{{installer_id}}">{{installer_name}}</option>
+                    {{/if}}
+                    <option>Todos</option>
+                    {{#each todos_instaladores}}
+                    <option name='sel_all_installers' value='{{_id}}'>{{nome}}</option>
+                    {{else}}
+                    <option>Nenhum instalador cadastrado</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class='col-md-3'>
+                <label class='col-form-label col-form-label-sm fw-bold'>Status</label>
+                <select name='status' class='form-select form-select-sm'>
+                    {{#if status}}
+                    <option class='fw-bold' value="{{status}}">{{status}}</option>
+                    {{/if}}
+                    <option>Todos</option>
+                    <option value='Aguardando'>Aguardando</option>
+                    <option value='Execução'>Execução</option>
+                    <option value='Instalado'>Instalado</option>
+                    <option value='Parado'>Parado</option>
+                </select>
+            </div>
+            <div style="width: 140px;">
+                <label class="col-form-label col-form-label-sm">Data Inicial</label>
+                <input type='date' class='form-control form-control-sm' name='dataini' id='dataini' value='{{dataini}}'>
+            </div>
+            <div style="width: 140px;">
+                <label class="col-form-label col-form-label-sm">Data Final</label>
+                <input type='date' class='form-control form-control-sm' name='datafim' id='datafim' value='{{datafim}}'>
+            </div>
+            <div class="col mt-4" style='display: flex;justify-content: center;'>
+                <button type='submit' class='botaofiltrar'>
+                    <i class='bi bi-search iconefiltrar' style="display: flex;padding: 0px 0px 0px 0px"></i>
+                </button>
+                <a href='/' class='no-print' style="color: rgb(40, 55, 86);display: flex;padding: 0px 5px 0px 5px"
+                    title="Imprimir Relatório" onclick="window.print();return false"><i class="bi bi-printer"></i></a>
+                <a href='/gerenciamento/dashInstalador' class='no-print'
+                    style="color: rgb(40, 55, 86);display: flex;padding: 0px 5px 0px 5px" title="Abrir Dashboard">
+                    <i class="bi bi-window"></i></a>
+            </div>
+        </div>
+    </form>
+    <div style="margin-bottom: 4%;margin-top: 1%;">
+
+        <table>
+            <tr>
+            <tr>
+                <th style="width: 2%;" rowspan="2">Cód.</th>
+                <th style="width: 20%" rowspan="2">Cliente</th>
+                <th style="width: 6%;" rowspan="2">Cidade</th>
+                <th style="width: 10%;" rowspan="2">Telhado</th>
+                <th style="width: 6%;" rowspan="2">Sistema</th>
+                <th style="width: 8%;" colspan="2">Módulos</th>
+                <th style="width: 5%;" rowspan="2">Inversor</th>
+                <th style="width: 6%;" rowspan="2">Instalador</th>
+                <th style="width: 10%;" rowspan="2">Banco</th>
+                <th style="width: 6%;" rowspan="2">Projeto</th>
+                <th style="width: 6%;" rowspan="2">Pagamento</th>
+                <th style="width: 10%" rowspan="2">Data Final</th>
+                <th style="width: 7%" rowspan="2">Observações</th>
+            </tr>
+            <tr>
+                <th style="width: 8%;">Quantidade</th>
+                <th style="width: 8%;">Potência</th>
+            </tr>
+            {{#each listaAndamento}}
+            <tr style="line-height: 30px;">
+                <td style="text-align: center;font-weight: 800;" {{#if parado}}id="parado" {{else}}{{#if
+                    instalado}}id="execucao" {{else}}{{#if execucao}}id="realizado" {{else}}id="aguardando"
+                    {{/if}}{{/if}}{{/if}}><a href='/gerenciamento/orcamento/{{id}}'>{{seq}}</a></td>
+                <td style="text-align: center;"><a href='/gerenciamento/orcamento/{{id}}'>{{cliente}}</a></td>
+                <td style="text-align: center;"><a href='/gerenciamento/orcamento/{{id}}'>{{cidade}}/{{uf}}</a></td>
+                <td style="text-align: center;"><a href='/gerenciamento/orcamento/{{id}}'>{{telhado}}/{{estrutura}}</a>
+                </td>
+                <td style="text-align: center;"><a href='/gerenciamento/orcamento/{{id}}'>{{sistema}}</a></td>
+                <td style="text-align: center;"><a href='/gerenciamento/orcamento/{{id}}'>{{modulos}}</a></td>
+                <td style="text-align: center;"><a href='/gerenciamento/orcamento/{{id}}'>{{potencia}}</a></td>
+                <td style="text-align: center;"><a href='/gerenciamento/orcamento/{{id}}'>{{inversor}}</a></td>
+                <td style="text-align: center;">
+                    <button class='btn'
+                        onclick='getInstaler("projeto{{seq}}","{{id}}","{{modulos}}","{{execucao}}","{{parado}}","{{instalado}}","{{autorizado}}","{{pago}}","{{encerrado}}","{{deadline}}","{{checkReal}}", "{{nome_ins}}", "{{id_ins}}")'
+                        data-bs-toggle="modal" data-bs-target="#instalador">
+                        <i class='bi bi-person instalador' id='selinstalador'
+                            style="display: flex;justify-content: center;margin: auto;padding-top: 10px;"></i>
+                        <div id='projeto{{seq}}' style="display: none;">
+                            {{#each addInstalador}}
+                            <label class="selectInstalador">{{instalador}}</label>
+                            <label>/</label>
+                            <label class="qtdmod">{{qtdmod}}</label>
+                            {{/each}}
+                        </div>
+                    </button>
+                </td>
+                <td style="text-align: center;"><a href='/gerenciamento/projeto/{{id}}'>{{nome_ins_banco}}</a></td>
+                <td style="text-align: center;">
+                    <button class="btn">
+                        <i style="display: flex;justify-content: center;margin: auto;" {{#if
+                            autorizado}}class="bi bi-check" id='execucao' {{else}}class="bi bi-stop-fill" id='parado'
+                            {{/if}}>
+                        </i>
+                    </button>
+                </td>
+                <td style="text-align: center;">
+                    <button class="btn">
+                        <i style="display: flex;justify-content: center;margin: auto;" {{#if
+                            pagamento}}class="bi bi-check" id='execucao' {{else}}class="bi bi-stop-fill" id='parado'
+                            {{/if}}>
+                        </i>
+                    </button>
+                </td>
+                <td style=" text-align: center;">{{dtfim}}
+                </td>
+                <td style=" text-align: center">
+                    <button class='btn' onclick="getObservacao('{{seq}}')" data-bs-toggle="modal"
+                        data-bs-target="#obsinstalacao">
+                        <i class='bi bi-stickies instalador' id='selinstalador'
+                            style="display: flex;justify-content: center;margin: auto;padding-top: 10px;"></i>
+                        <div id="idprj{{seq}}" style="display: none;">{{id}}</div>
+                        <div id="observacao{{seq}}" style="display: none;">
+                            {{observacao}}
+                        </div>
+                        <div id="obsprojetista{{seq}}" style="display: none;">
+                            {{obsprojetista}}
+                        </div>
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const popup = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    function deleteInstalador(id, ins) {
+        popup.fire({
+            title: "Deletar Instalador",
+            text: "Tem certeza que deseja continuar?",
+            icon: "question",
+            heightAuto: false,
+            showCancelButton: true,
+            cancelButtonText: 'Não, voltar!',
+            confirmButtonText: 'Sim, remova o instalador!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/gerenciamento/removeInstalador/' + `${id}@${ins}`
+            }
+        })
+    }
+
+    function realizado(id) {
+        var check = $('#check').is(':checked')
+        var form = $('#insRealizado')
+
+        $('.checkReal').remove()
+
+        if (check) {
+            form.css("display", "flex")
+
+            $('<input>').attr({
+                name: 'check',
+                class: 'checkReal',
+                value: true,
+                type: 'hidden'
+
+            }).prependTo('form')
+
+            form.show()
+
+        } else {
+            form.hide()
+        }
+    }
+
+    function getObservacao(seq) {
+        var contentobsins = $('#observacao' + seq).text();
+        var contentobspro = $('#obsprojetista' + seq).text();
+        var idprj = $('#idprj' + seq).text();
+        $('#obsprojetista').text(contentobspro);
+        $('#obsinstal').text(contentobsins);
+        $('#idprjmain').val(idprj);
+    }
+
+    function getInstaler(projeto, id, modulos, execucao, parado, instalado, autorizado, pago, encerrado, deadline, check, nome_ins, id_ins) {
+        const listInstallers = $("#modal-body-installers")
+        const listModules = $("#modal-body-modules")
+        const listActions = $("#modal-body-actions")
+        const addInstaller = $("#addInstaller")
+        const sendTeam = $("#sendTeam")
+        const buttonAuth = $("#buttonAuth")
+        const iconAuth = $("#iconAuth")
+        const ins_realizado = $('#insRealizado')
+        const sel_realizado = $('#sel_realizado')
+
+        if (deadline != '') {
+            const dtfim = $('#dtfim')
+            dtfim.val(deadline)
+        }
+
+        const qtdmod = $('#qtdmod')
+        qtdmod.val(modulos)
+
+        const content = document.getElementById(projeto)
+        const lengthInstal = content.getElementsByClassName('selectInstalador')
+        const lengthQtdMod = content.getElementsByClassName('qtdmod')
+
+        var instalers = ''
+        var modules = ''
+        var actions = ''
+        for (i = 0; i < lengthInstal.length; i++) {
+            instalers = instalers + lengthInstal[i].innerHTML + '<br>'
+            modules = modules + lengthQtdMod[i].innerHTML + '<br>'
+            actions = actions + '<div style="display: flex;">' +
+                '<div class="form-check" style="display: flex">' +
+                '<label class="check-label" style="width: 160px;">NÃO É INSTALADOR REALIZADO</label>' +
+                '<input ' + check + ' onclick="realizado(' + `'${id}'` + ')" class="check-input" type="checkbox" id="check" value="1">' +
+                '</div>' +
+                '<i onclick="deleteInstalador(' + `'${id}','${lengthInstal[i].innerHTML}'` + ')" class="bi bi-trash2" style="cursor: pointer;display: flex;margin-top: 5px; margin-left: 20px; font-size: 20px"></i>' +
+                '</div>'
+        }
+
+        $(".optReal").remove()
+        if (check == 'checked') {
+            sel_realizado.prepend($('<option>',
+                {
+                    value: id_ins,
+                    text: nome_ins,
+                    addClass: 'fw-bold optReal',
+
+                }
+            ).prop('selected', true))
+
+            ins_realizado.css("display", "flex")
+            ins_realizado.show()
+
+        } else {
+            ins_realizado.hide()
+        }
+
+        iconAuth.removeClass()
+        buttonAuth.removeClass()
+        sendTeam.hide()
+
+        if (lengthInstal.length > 0) {
+
+            iconAuth.addClass("d-flex justify-align-right")
+
+            buttonAuth.addClass("btn btn-sm")
+            buttonAuth.addClass("d-flex justify-content-center")
+
+            sendTeam.show()
+            const icon = document.createElement('icon')
+            if (execucao == "true") {
+                if (parado == "true") {
+                    iconAuth.addClass("bi bi-arrow-right-circle")
+                } else {
+                    iconAuth.addClass("bi bi-stop-circle")
+                }
+            } else {
+                iconAuth.addClass("bi bi-arrow-right-circle")
+            }
+
+            if (execucao == 'true') {
+                if (parado == 'true') {
+                    buttonAuth.addClass("btn-primary")
+                } else {
+                    buttonAuth.addClass("btn-warning")
+                }
+            } else {
+                buttonAuth.addClass("btn-primary")
+            }
+        }
+
+        buttonAuth.append(iconAuth)
+
+        const inputEnviar = document.createElement('input')
+        inputEnviar.type = 'hidden'
+        inputEnviar.value = id
+        inputEnviar.name = 'id'
+
+        const inputInstalador = document.createElement('input')
+        inputInstalador.type = 'hidden'
+        inputInstalador.value = id
+        inputInstalador.name = 'id'
+
+        listActions.html(actions)
+        listInstallers.html(instalers)
+        listModules.html(modules)
+        addInstaller.prepend(inputInstalador)
+        sendTeam.prepend(inputEnviar)
+    }
+</script>

@@ -1,0 +1,85 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
+
+PATH: 
+  C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;C:\Python\Scripts\;C:\Python\;C:\Program Files\Eclipse Adoptium\jdk-11.0.16.101-hotspot\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\GitHub CLI\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\MinGW\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\User\AppData\Roaming\npm;C:\Users\User\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Eclipse Adoptium\jdk-11.0.16.101-hotspot\bin\bin;C:\Users\User\AppData\Local\Android\Sdk\platform;C:\Users\User\AppData\Local\Android\Sdk\platform-tools;C:\Users\User\.dotnet\tools;C:\Program Files\MongoDB\Server\6.0\bin;C:\Program Files\heroku\bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.16.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Source\vimmus_quasat_site\package.json: Unexpected token < in JSON at position 104
+      at JSON.parse (<anonymous>)
+      at C:\Users\User\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\User\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\User\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "quasat",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/app.js",
+    "scripts": {
+      "start": "nodemon src/app.js",
+      "build": "npm run sucrase src/app.js"
+    },
+    "author": "Alexandre Galiotto <alexandre@vimmus.com.br>",
+    "license": "ISC",
+    "dependencies": {
+      "@aws-sdk/client-s3": "^3.49.0",
+      "@zenvia/sdk": "^2.2.0",
+      "aws-sdk": "^2.1058.0",
+      "axios": "^0.27.2",
+      "bcryptjs": "^2.4.3",
+      "body-parser": "^1.19.1",
+      "bootstrap-icons": "^1.8.1",
+      "buffer-image": "^1.0.0",
+      "connect-flash": "^0.1.1",
+      "core-js": "^3.21.1",
+      "cors": "^2.8.5",
+      "data-uri-to-file": "^0.1.8",
+      "dotenv": "^16.0.0",
+      "excel4node": "^1.7.2",
+      "exceljs": "^4.3.0",
+      "express": "^4.17.2",
+      "express-handlebars": "^6.0.2",
+      "express-session": "^1.17.2",
+      "form-data": "^4.0.0",
+      "formidable": "^2.0.1",
+      "googleapis": "^99.0.0",
+      "handlebars": "^4.7.7",
+      "local-storage": "^2.0.0",
+      "mongoose": "^6.1.6",
+      "multer": "^1.4.4",
+      "multer-s3": "^2.10.0",
+      "node-localstorage": "^2.2.1",
+      "nodemailer": "^6.7.2",
+      "nodemon": "^2.0.15",
+      "office-chart": "^1.0.26",
+      "passport": "^0.5.2",
+      "passport-jwt": "^4.0.0",
+      "passport-local": "^1.0.0",
+      "path": "^0.12.7",
+      "regenerator-runtime": "^0.13.9",
+      "resize-image-buffer": "^1.0.0",
+      "sharp": "^0.30.6",
+      "sucrase": "^3.25.0",
+      "twilio": "^3.75.0",
+      "xlsx": "^0.18.5",
+      "xlsx-chart": "^0.4.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
